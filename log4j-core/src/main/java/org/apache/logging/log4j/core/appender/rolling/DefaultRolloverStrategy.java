@@ -203,8 +203,8 @@ public class DefaultRolloverStrategy extends AbstractRolloverStrategy {
      * Purges and renames old log files in preparation for rollover. The oldest file will have the smallest index, the
      * newest the highest.
      *
-     * @param lowIndex low index
-     * @param highIndex high index. Log file associated with high index will be deleted if needed.
+     * @param lowIndex low index. Log file associated with low index will be deleted if needed.
+     * @param highIndex high index.
      * @param manager The RollingFileManager
      * @return true if purge was successful and rollover should be attempted.
      */
@@ -222,7 +222,7 @@ public class DefaultRolloverStrategy extends AbstractRolloverStrategy {
                 eligibleFiles.remove(key);
                 renameFiles = true;
             } catch (IOException ioe) {
-                LOGGER.error("Unable to delete {}", eligibleFiles.firstKey(), ioe);
+                LOGGER.error("Unable to delete {}, {}", eligibleFiles.firstKey(), ioe.getMessage(), ioe);
                 break;
             }
         }
@@ -275,7 +275,7 @@ public class DefaultRolloverStrategy extends AbstractRolloverStrategy {
                 Files.delete(eligibleFiles.get(key));
                 eligibleFiles.remove(key);
             } catch (IOException ioe) {
-                LOGGER.error("Unable to delete {}", eligibleFiles.firstKey(), ioe);
+                LOGGER.error("Unable to delete {}, {}", eligibleFiles.firstKey(), ioe.getMessage(), ioe);
                 break;
             }
         }

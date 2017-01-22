@@ -21,11 +21,11 @@
   <artifactId>log4j</artifactId>
   <packaging>pom</packaging>
   <name>Apache Log4j 2</name>
-  <version>2.8</version>
+  <version>2.8.1</version>
   <parent>
-    <groupId>org.apache</groupId>
-    <artifactId>apache</artifactId>
-    <version>9</version>
+    <groupId>org.apache.logging</groupId>
+    <artifactId>logging-parent</artifactId>
+    <version>1</version>
   </parent>
   <description>Apache Log4j 2</description>
   <url>https://logging.apache.org/log4j/2.x/</url>
@@ -161,38 +161,25 @@
       </otherArchives>
     </mailingList>
   </mailingLists>
-  <!-- TODO: this can be removed after migrating to logging-parent -->
-  <licenses>
-    <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
   <scm>
     <connection>scm:git:https://git-wip-us.apache.org/repos/asf/logging-log4j2.git</connection>
     <developerConnection>scm:git:https://git-wip-us.apache.org/repos/asf/logging-log4j2.git</developerConnection>
     <url>https://git-wip-us.apache.org/repos/asf?p=logging-log4j2.git;a=summary</url>
-    <tag>log4j-2.8-rc1</tag>
+    <tag>log4j-2.8.1-rc1</tag>
   </scm>
-  <!-- TODO: this can be removed after migrating to logging-parent -->
-  <organization>
-    <name>Apache Software Foundation</name>
-    <url>https://www.apache.org</url>
-  </organization>
   <properties>
     <!-- make sure to update these for each release! -->
     <log4jParentDir>${basedir}</log4jParentDir>
-    <Log4jReleaseVersion>2.8</Log4jReleaseVersion>
+    <Log4jReleaseVersion>2.8.1</Log4jReleaseVersion>
     <Log4jReleaseManager>Ralph Goers</Log4jReleaseManager>
     <Log4jReleaseKey>B3D8E1BA</Log4jReleaseKey>
     <!-- <Log4jReleaseManager>Matt Sicker</Log4jReleaseManager>
     <Log4jReleaseKey>FA1C814D</Log4jReleaseKey> -->
     <!-- note that any properties you want available in velocity templates must not use periods! -->
-    <slf4jVersion>1.7.21</slf4jVersion>
-    <logbackVersion>1.1.7</logbackVersion>
+    <slf4jVersion>1.7.24</slf4jVersion>
+    <logbackVersion>1.2.0</logbackVersion>
     <jackson1Version>1.9.13</jackson1Version>
-    <jackson2Version>2.8.5</jackson2Version>
+    <jackson2Version>2.8.6</jackson2Version>
     <springVersion>3.2.18.RELEASE</springVersion>
     <flumeVersion>1.7.0</flumeVersion>
     <disruptorVersion>3.3.6</disruptorVersion>
@@ -218,9 +205,8 @@
     <site.plugin.version>3.4</site.plugin.version>
     <remote.resources.plugin.version>1.5</remote.resources.plugin.version>
     <manifestfile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestfile>
-    <!-- TODO: change to "compiler" instead of "compile" when migrating to logging-parent -->
-    <maven.compile.source>1.7</maven.compile.source>
-    <maven.compile.target>1.7</maven.compile.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
     <docLabel>Site Documentation</docLabel>
     <projectDir />
     <commonsLoggingVersion>1.2</commonsLoggingVersion>
@@ -272,14 +258,14 @@
         <scope>test</scope>
       </dependency>
       <dependency>
-        <groupId>org.eclipse.osgi</groupId>
+        <groupId>org.eclipse.tycho</groupId>
         <artifactId>org.eclipse.osgi</artifactId>
-        <version>3.7.1</version>
+        <version>3.11.2.v20161107-1947</version>
       </dependency>
       <dependency>
         <groupId>org.apache.felix</groupId>
         <artifactId>org.apache.felix.framework</artifactId>
-        <version>4.6.1</version>
+        <version>5.6.1</version>
       </dependency>
       <dependency>
         <groupId>org.apache.maven</groupId>
@@ -799,12 +785,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <!-- TODO: remove after migrating to logging-parent -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-remote-resources-plugin</artifactId>
-          <version>${remote.resources.plugin.version}</version>
-        </plugin>
         <plugin>
           <groupId>org.apache.felix</groupId>
           <artifactId>maven-bundle-plugin</artifactId>
@@ -849,6 +829,7 @@
             <bottom><![CDATA[<p align="center">Copyright &#169; {inceptionYear}-{currentYear} {organizationName}. All Rights Reserved.<br />
             Apache Logging, Apache Log4j, Log4j, Apache, the Apache feather logo, the Apache Logging project logo,
             and the Apache Log4j logo are trademarks of The Apache Software Foundation.</p>]]></bottom>
+            <!--<additionalparam>-Xdoclint:none</additionalparam>-->
           </configuration>
         </plugin>
         <plugin>
@@ -862,8 +843,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${compiler.plugin.version}</version>
           <configuration>
-            <source>${maven.compile.source}</source>
-            <target>${maven.compile.target}</target>
+            <source>${maven.compiler.source}</source>
+            <target>${maven.compiler.target}</target>
             <showDeprecation>true</showDeprecation>
             <showWarnings>true</showWarnings>
             <encoding>UTF-8</encoding>
@@ -875,30 +856,6 @@
               <Xlint />
             </compilerArguments>
           </configuration>
-          <executions>
-            <execution>
-              <!-- disable annotation processing for first pass -->
-              <id>default-compile</id>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-              <phase>compile</phase>
-              <configuration>
-                <proc>none</proc>
-              </configuration>
-            </execution>
-            <execution>
-              <!-- then do a processing-only pass to generate plugins .dat file -->
-              <id>process-plugins</id>
-              <goals>
-                <goal>compile</goal>
-              </goals>
-              <phase>process-classes</phase>
-              <configuration>
-                <proc>only</proc>
-              </configuration>
-            </execution>
-          </executions>          
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -987,8 +944,8 @@
               <Implementation-Version>${project.version}</Implementation-Version>
               <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
               <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
-              <X-Compile-Source-JDK>${maven.compile.source}</X-Compile-Source-JDK>
-              <X-Compile-Target-JDK>${maven.compile.target}</X-Compile-Target-JDK>
+              <X-Compile-Source-JDK>${maven.compiler.source}</X-Compile-Source-JDK>
+              <X-Compile-Target-JDK>${maven.compiler.target}</X-Compile-Target-JDK>
             </manifestEntries>
           </archive>
         </configuration>
@@ -1147,8 +1104,6 @@
             <!-- IntelliJ files -->
             <exclude>.idea/**/*</exclude>
             <exclude>src/test/resources/**/*</exclude>
-            <!-- VM metadata -->
-            <exclude>.vagrant/**/*</exclude>
             <!-- IDE settings imports -->
             <exclude>src/ide/**</exclude>
             <!-- does it even make sense to apply a license to a GPG signature? -->
@@ -1163,6 +1118,7 @@
             <exclude>velocity.log</exclude>
             <!-- Other -->
             <exclude>felix-cache/**</exclude>
+            <exclude>RELEASE-NOTES.md</exclude>
           </excludes>
         </configuration>
       </plugin>
@@ -1272,8 +1228,6 @@
             <!-- IntelliJ files -->
             <exclude>.idea/**/*</exclude>
             <exclude>src/test/resources/**/*</exclude>
-            <!-- VM metadata -->
-            <exclude>.vagrant/**/*</exclude>
             <!-- IDE settings imports -->
             <exclude>src/ide/**</exclude>
             <!-- does it even make sense to apply a license to a GPG signature? -->
@@ -1288,28 +1242,19 @@
             <exclude>velocity.log</exclude>
             <!-- Other -->
             <exclude>felix-cache/**</exclude>
+            <exclude>RELEASE-NOTES.txt</exclude>
           </excludes>
         </configuration>
       </plugin>
     </plugins>
   </reporting>
-  <!-- TODO: this can be removed after migrating to logging-parent -->
   <distributionManagement>
-     <repository>
-      <id>apache.releases.https</id>
-      <name>Apache Release Distribution Repository</name>
-      <url>https://repository.apache.org/service/local/staging/deploy/maven2</url>
-    </repository>
-    <snapshotRepository>
-      <id>apache.snapshots.https</id>
-      <name>Apache Development Snapshot Repository</name>
-      <url>https://repository.apache.org/content/repositories/snapshots</url>
-    </snapshotRepository>
-    <site>
-      <id>apache.website</id>
-      <url>scp://people.apache.org/www/logging.apache.org/log4j/2.0</url>
-    </site>
     <downloadUrl>https://logging.apache.org/log4j/2.x/download.html</downloadUrl>
+    <!-- site is only included to make maven-site-plugin stop complaining -->
+    <site>
+      <id>www.example.com</id>
+      <url>scp://www.example.com/www/docs/project/</url>
+    </site>
   </distributionManagement>
   <modules>
     <module>log4j-api</module>
@@ -1455,14 +1400,9 @@
               <excludes>
                 <!-- Matches other RAT configurations in this POM -->
                 <exclude>src/main/resources/META-INF/services/**/*</exclude>
-                <!-- Docker -->
-                <exclude>.dockerignore</exclude>
-                <exclude>Dockerfile</exclude>
                 <!-- IntelliJ files -->
                 <exclude>.idea/**/*</exclude>
                 <exclude>src/test/resources/**/*</exclude>
-                <!-- VM metadata -->
-                <exclude>.vagrant/**/*</exclude>
                 <!-- IDE settings imports -->
                 <exclude>src/ide/**</exclude>
                 <!-- does it even make sense to apply a license to a GPG signature? -->
@@ -1477,6 +1417,7 @@
                 <exclude>velocity.log</exclude>
                 <!-- Other -->
                 <exclude>felix-cache/**</exclude>
+                <exclude>RELEASE-NOTES.md</exclude>
               </excludes>
             </configuration>
             <executions>

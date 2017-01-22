@@ -23,12 +23,63 @@
     <title>Changes</title>
   </properties>
   <body>
+    <!-- NOTE: the text node in an action element is interpreted as Markdown in the release notes! -->
+    <!-- The "type" attribute can have the following values:
+         - "add" - New Feature
+         - "fix" - Fixed Bug
+         - "update" - Change
+         - "remove" - Removed
+    -->
+    <release version="2.8.1" date="2017-02-26" description="GA Release 2.8.1">
+      <action issue="LOG4J2-1804" dev="rgoers" type="fix" due-to="Pierrick Hymbert">
+        Allow %i in file pattern to be preceded with characters other than just '-'.
+      </action>
+      <action issue="LOG4J2-1822" dev="rgoers" type="update">
+        Update SLF4J to 1.7.24.
+      </action>
+      <action issue="LOG4J2-1812" dev="rpopma" type="update">
+        Improved error message when log4j 2 configuration file not found.
+      </action>
+      <action issue="LOG4J2-1810" dev="rgoers" type="update">
+        Update to use Logback 1.1.10 and then Logback 1.2 for tests.
+      </action>
+      <action issue="LOG4J2-1819" dev="ggregory" type="update">
+        Update Jackson from 2.8.5 to 2.8.6.
+      </action>
+      <action issue="LOG4J2-1816" dev="rpopma" type="fix" due-to="shubhankar1100">
+        Change minOccur to minOccurs in Log4j-config.xsd.
+      </action>
+      <action issue="LOG4J2-1803" dev="rgoers" type="fix">
+        Fix Maven POM to ensure JMH generated classes in log4j-perf are included in benchmarks jar.
+      </action>
+      <action issue="LOG4J2-1800" dev="mikes" type="fix" due-to="Vincent Tieleman">
+        Report errors when sending to Kafka when using syncSend=false.
+      </action>
+      <action issue="LOG4J2-1805" dev="rpopma" type="fix">
+        Fixed rare race condition in FixedDateFormat, made FixedDateFormat::millisSinceMidnight method public.
+      </action>
+      <action issue="LOG4J2-1799" dev="rpopma" type="fix" due-to="Eduard Gizatullin">
+        Fixed bug in PropertiesUtil::getCharsetProperty that caused UnsupportedCharsetException for ConsoleAppender.
+      </action>
+      <action issue="LOG4J2-1806" dev="rpopma" type="fix" due-to="challarao">
+        Fix Javadoc for DefaultRolloverStrategy::purgeAscending
+      </action>
+      <action issue="LOG4J2-1818" dev="ggregory" type="fix" due-to="xkr47">
+        Fix rollover to work when filePattern contains no directory components.
+      </action>
+      <action issue="LOG4J2-1823" dev="mattsicker" type="add">
+        Remove deprecation on MessageSupplier lambda functions in Logger API.
+      </action>
+      <action issue="LOG4J2-1807" dev="ggregory" type="add">
+        [core] Add and implement LogEvent.toImmutable().
+      </action>
+    </release>
     <release version="2.8" date="2017-01-21" description="GA Release 2.8">
       <action issue="LOG4J2-1780" dev="mikes" type="fix">
         Eliminate the use of the ExecutorServices in the LoggerContext.
       </action>
       <action issue="LOG4J2-1032" dev="rgoers" type="add">
-        Make DefaultRolloverStrategy more efficent when renaming files. Add nomax option to the fileIndex attribute.
+        Make DefaultRolloverStrategy more efficient when renaming files. Add nomax option to the fileIndex attribute.
       </action>
       <action issue="LOG4J2-1101" dev="rgoers" type="add">
         RollingFileAppender now supports omitting the file name and writing directly to the archive files.
@@ -210,7 +261,7 @@
       <action issue="LOG4J2-1743" dev="ggregory" type="fix" due-to="Toby Shepheard">
         CompositeConfiguration does not add filters to appenderRefs.
       </action>
-      <action issue="LOG4J2-1756" dev="ggregory" type="fix" due-to="shubhankar1100">
+      <action issue="LOG4J2-1756" dev="ggregory" type="fix"  due-to="shubhankar1100">
         Adds xmlns in schema and some other tags.
       </action>
       <action issue="LOG4J2-1781" dev="mattsicker" type="update">
@@ -765,7 +816,7 @@
         (GC) Update Logger wrapper Generator tool to generate methods for the new Logger methods.
       </action>
       <action issue="LOG4J2-1356" dev="mikes" type="update">
-        (GC) GelfLayout does now support garabage-free logging (with compressionType=OFF).
+        (GC) GelfLayout does now support garbage-free logging (with compressionType=OFF).
       </action>
       <action issue="LOG4J2-1326" dev="rpopma" type="add">
         (GC) Added methods to the Logger interface for logging CharSequence messages.
@@ -2093,7 +2144,7 @@
         Create an appender to route log events to the ServletContext log.
       </action>
       <action issue="LOG4J2-419" dev="rgoers" type="update" due-to="Woonsan Ko">
-        Support default value for missing key in look ups with fallbacking to looking in the properties map.
+        Support default value for missing key in look ups with fallback to looking in the properties map.
       </action>
       <action issue="LOG4J2-563" dev="rgoers" type="fix" due-to="Michael Friedmann">
         FlumeAvroManager now always uses a client type of default_failover.
@@ -2858,7 +2909,7 @@
         HTML layout does not output meta element for charset.
       </action>
       <action issue="LOG4J2-257" dev="ggregory" type="fix">
-        XML layout ignores charset for the XML processing intruction's encoding attribute.
+        XML layout ignores charset for the XML processing instruction's encoding attribute.
       </action>
       <action issue="LOG4J2-255" dev="rpopma" type="fix">
         Multi-byte character strings are now assumed to be in the platform default encoding, not UTF-8.
@@ -3394,7 +3445,7 @@
       </action>
       <action issue="LOG4J2-51" dev="rgoers" type="fix" due-to="John Vasileff">
         Remove LoggerContext support for custom logger factories. All Loggers returned
-        by LoggerContext should be compatibile and of the same type.
+        by LoggerContext should be compatible and of the same type.
       </action>
       <action issue="LOG4J2-50" dev="rgoers" type="fix" due-to="John Vasileff">
         Make sure all application facing log methods use their own FQCN. This patch
